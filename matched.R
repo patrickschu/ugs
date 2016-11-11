@@ -39,13 +39,16 @@ plotter = function (dataset)
 }
 
 
+speakis=c(2,3)
 
-comparisonplotter = function (dataset)
+comparisonplotter= function (dataset, speakers)
 #we need to plot stimulus 2 and 4 side by side
 #for each question, plot options 1, 2, and 3 for stim 2 and 4 side by side
 {
-	subseti= dataset[which(dataset['STIMULUS'] == 2 | dataset['STIMULUS'] == 4 ),]
+	subseti= dataset[which(dataset['STIMULUS'] == speakers[1] | dataset['STIMULUS'] == speakers[2] ),]
 	#print (subseti)
+	speakers= levels(as.factor(subseti[['STIMULUS']]));
+	print(speakers);
 	for (q in levels(subseti[['QUESTION']]))
 	 {
 		cat ("working on", q, "\n");
@@ -53,31 +56,31 @@ comparisonplotter = function (dataset)
 		print (qsubseti)	;	
 
 		option1= c(
-		"Stimulus 2"= qsubseti[qsubseti['STIMULUS'] == 2, ][['OPTION1']], 
-		"Stimulus 4"= qsubseti[qsubseti['STIMULUS'] == 4, ][['OPTION1']]
+		"Stimulus 2"= qsubseti[qsubseti['STIMULUS'] == speakers[1], ][['OPTION1']], 
+		"Stimulus 4"= qsubseti[qsubseti['STIMULUS'] == speakers[2], ][['OPTION1']]
 		);
 		
 		option2= c(
-		"Stimulus 2"= qsubseti[qsubseti['STIMULUS'] == 2, ][['OPTION2']], 
-		"Stimulus 4"= qsubseti[qsubseti['STIMULUS'] == 4, ][['OPTION2']]
+		"Stimulus 2"= qsubseti[qsubseti['STIMULUS'] == speakers[1], ][['OPTION2']], 
+		"Stimulus 4"= qsubseti[qsubseti['STIMULUS'] == speakers[2], ][['OPTION2']]
 		);
 		
 		option3= c(
-		"Stimulus 2"= qsubseti[qsubseti['STIMULUS'] == 2, ][['OPTION3']], 
-		"Stimulus 4"= qsubseti[qsubseti['STIMULUS'] == 4, ][['OPTION3']]
+		"Stimulus 2"= qsubseti[qsubseti['STIMULUS'] == speakers[1], ][['OPTION3']], 
+		"Stimulus 4"= qsubseti[qsubseti['STIMULUS'] == speakers[2], ][['OPTION3']]
 		);
 		
-		outputfile=paste("comparing_stimuli", q, sep="_")
+		outputfile=paste("comparing_stimuli", q, speakers[1], speakers[2], sep="_")
 		postscript(paste(outputfile, ".ps"), width = 960, height = 960);
 		png(paste(outputfile, ".png"),  width=640, height=640, res=100);
 		
 		barplot (
 		cbind(option1, option2, option3), 
-		names.arg= c(' > 60,000','40,000 - 60,000','< 40,000'), 
+		names.arg= c('Option 1','Option 2','Option 3'), 
 		ylim=c(0,15),
 		ylab= "Number of responses",
 		beside= TRUE, 
-		legend= c("BrE guise", "GA guise"),
+		legend= c(paste("Stimulus",speakers[1]), paste("Stimulus",speakers[2])),
 		args.legend= list(x= "topright"),
 		main= paste("Comparing Stimuli, question: ", q, ", respondents: ", sum(
 		option1['Stimulus 2'], option2['Stimulus 2'], option3['Stimulus 2']), sep=""),
@@ -92,4 +95,4 @@ comparisonplotter = function (dataset)
 
 
 
-comparisonplotter(sect1)
+comparisonplotter(sect1, speakis)
