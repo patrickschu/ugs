@@ -9,7 +9,7 @@ summary(sect1)
 
 
 plotter = function (dataset)
-#for each  question, plot the distribution over options
+#for each  question, plot the distribution over options, i.e. possible answers. 
 {
 	for (s in dataset[['STIMULUS']])
 	{
@@ -39,11 +39,12 @@ plotter = function (dataset)
 }
 
 
-speakis=c(2,3)
+speakis=c(2,4)
 
 comparisonplotter= function (dataset, speakers)
-#we need to plot stimulus 2 and 4 side by side
-#for each question, plot options 1, 2, and 3 for stim 2 and 4 side by side
+# This plots the 2 speakers in 'speakers' beside each other in barplots. 
+# It does so by iterating over the questions. 
+
 {
 	subseti= dataset[which(dataset['STIMULUS'] == speakers[1] | dataset['STIMULUS'] == speakers[2] ),]
 	#print (subseti)
