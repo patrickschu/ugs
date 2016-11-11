@@ -95,5 +95,5 @@ comparisonplotter= function (dataset, speakers)
 
 
 
-
-comparisonplotter(sect1, speakis)
+plotter(sect1)
+#comparisonplotter(sect1, speakis)
